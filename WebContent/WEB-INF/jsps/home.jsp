@@ -7,6 +7,6 @@
 <title>Insert title here</title>
 </head>
 <body>
-asdadaasddadadasdasdas
+<input type="button" value="Add Page" onclick="window.location.href='registerPage'" />
 </body>
 </html>
