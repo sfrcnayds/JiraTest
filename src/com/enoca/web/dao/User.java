@@ -1,20 +1,10 @@
 package com.enoca.web.dao;
 
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
-
-import org.hibernate.validator.constraints.Email;
 
 public class User {
-
-	@NotNull @Min(2)
 	private String name;
-	@NotNull @Min(2)
 	private String surname;
-	@Email @NotNull
 	private String mail;
-	@NotNull @Size(min=6,max = 8)
 	private String password;
 	
 	private int id;

@@ -7,6 +7,7 @@ import java.util.List;
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -111,7 +112,23 @@ public class UserDAO {
 		return jdbc.update("update jiraUsers set NAME=:name,SURNAME=:surname,MAIL=:mail,PASSWORD=:password where ID=:id", params);
 	}
 	
-	
+	public User loginUser(String email,String password) throws EmptyResultDataAccessException {
+		MapSqlParameterSource params = new MapSqlParameterSource();
+		params.addValue("mail", email);
+		params.addValue("password", password.hashCode());
+		return jdbc.queryForObject("select * from jiraUsers where MAIL = :mail AND PASSWORD =:password", params, new RowMapper<User>() {
+			@Override
+			public User mapRow(ResultSet rs, int rowNum) throws SQLException {
+				User u = new User();
+				u.setId(rs.getInt("ID"));
+				u.setName(rs.getString("NAME"));
+				u.setSurname(rs.getString("SURNAME"));
+				u.setPassword(rs.getString("PASSWORD"));
+				u.setMail(rs.getString("MAIL"));
+				return u;
+			}
+		});
+	}
 	
 	
 	
